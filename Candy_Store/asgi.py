@@ -1,5 +1,5 @@
 """
-ASGI config for Candy_store project.
+ASGI config for Candy_Store project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
