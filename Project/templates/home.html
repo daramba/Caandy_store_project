@@ -1,11 +1,248 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit ea quae error nesciunt nulla dolorem voluptate repudiandae, eum amet reprehenderit officia, soluta at voluptas eligendi iusto quibusdam corporis? Assumenda, illo?</p>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %}Главная - Кондитерская лавка{% endblock %}
+
+{% block content %}
+    <style>
+        /* Hero секция */
+        .hero {
+            background: linear-gradient(rgba(255, 107, 157, 0.9), rgba(255, 142, 83, 0.9)), url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 1rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: #ffecb3;
+            color: #ff6b9d;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .cta-button:hover {
+            background: #ffd54f;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        /* Разделы */
+        .section-title {
+            text-align: center;
+            color: #ff6b9d;
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: #ff8e53;
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+        
+        /* Карточки товаров */
+        .sweets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .sweet-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .sweet-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .sweet-image {
+            height: 200px;
+            background: linear-gradient(45deg, #ff6b9d, #ff8e53);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+        }
+        
+        .sweet-info {
+            padding: 1.5rem;
+        }
+        
+        .sweet-brand {
+            color: #ff8e53;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .sweet-name {
+            font-size: 1.3rem;
+            margin: 0.5rem 0;
+            color: #333;
+        }
+        
+        .sweet-price {
+            color: #ff6b9d;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0.5rem 0;
+        }
+        
+        /* Блоки преимуществ */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .feature {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .feature i {
+            font-size: 3rem;
+            color: #ff8e53;
+            margin-bottom: 1rem;
+        }
+        
+        .feature h3 {
+            color: #ff6b9d;
+            margin-bottom: 1rem;
+        }
+        
+        /* Бренды */
+        .brands {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .brand {
+            background: white;
+            padding: 1.5rem 2.5rem;
+            border-radius: 10px;
+            font-weight: bold;
+            color: #ff6b9d;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+
+    <!-- Hero секция -->
+    <section class="hero">
+        <h1>Добро пожаловать в мир сладостей!</h1>
+        <p>Откройте для себя самые вкусные и качественные кондитерские изделия. Мы предлагаем широкий ассортимент сладостей на любой вкус.</p>
+        <a href="{% url 'sweets_list' %}" class="cta-button">
+            <i class="fas fa-shopping-bag"></i> Посмотреть каталог
+        </a>
+    </section>
+
+    <!-- Популярные сладости -->
+    <section>
+        <h2 class="section-title">Популярные сладости</h2>
+        <div class="sweets-grid">
+            {% for sweet in sweets %}
+            <div class="sweet-card">
+                <div class="sweet-image">
+                    <i class="fas fa-cookie-bite"></i>
+                </div>
+                <div class="sweet-info">
+                    <div class="sweet-brand">{{ sweet.brand.brand_name }}</div>
+                    <h3 class="sweet-name">{{ sweet.type.type_name }}</h3>
+                    <div class="sweet-price">{{ sweet.price }} ₽</div>
+                    <p><small>Вес: {{ sweet.weight }}</small></p>
+                    <a href="{% url 'sweet_detail' sweet.sweet_id %}" class="cta-button" style="padding: 0.5rem 1rem; font-size: 0.9rem; margin-top: 0.5rem; display: inline-block;">
+                        Подробнее
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <p style="text-align: center; grid-column: 1/-1;">Сладости скоро появятся!</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Наши преимущества -->
+    <section>
+        <h2 class="section-title">Почему выбирают нас</h2>
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-leaf"></i>
+                <h3>Натуральные ингредиенты</h3>
+                <p>Используем только натуральные и качественные ингредиенты</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-award"></i>
+                <h3>Высокое качество</h3>
+                <p>Контроль качества на всех этапах производства</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-truck"></i>
+                <h3>Быстрая доставка</h3>
+                <p>Доставляем сладости в кратчайшие сроки</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Бренды -->
+    <section>
+        <h2 class="section-title">Наши бренды</h2>
+        <div class="brands">
+            {% for brand in brands %}
+            <div class="brand">{{ brand.brand_name }}</div>
+            {% empty %}
+            <p>Бренды скоро появятся!</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Призыв к действию -->
+    <section style="text-align: center; margin: 4rem 0;">
+        <h2 style="color: #ff6b9d; margin-bottom: 1rem;">Готовы порадовать себя сладостями?</h2>
+        <p style="margin-bottom: 2rem; font-size: 1.1rem;">Выбирайте из более чем 100 видов различных сладостей</p>
+        <a href="{% url 'sweets_list' %}" class="cta-button" style="font-size: 1.2rem; padding: 1rem 3rem;">
+            <i class="fas fa-candy-cane"></i> Перейти в каталог
+        </a>
+    </section>
+{% endblock %}
