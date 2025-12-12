@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас - Candy Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #fff9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #ff6b8b, #ff8e53);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        nav {
+            background-color: #ff8e53;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .about-text h2 {
+            color: #ff6b8b;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .about-text p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        .values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .value-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .value-card h3 {
+            color: #ff8e53;
+            margin-bottom: 1rem;
+        }
+        
+        .team {
+            background-color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin: 3rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .team h2 {
+            text-align: center;
+            color: #ff6b8b;
+            margin-bottom: 2rem;
+        }
+        
+        .team-members {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .team-member {
+            text-align: center;
+        }
+        
+        .member-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #ff6b8b, #ff8e53);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        
+        .contact-info {
+            background: linear-gradient(135deg, #ff6b8b, #ff8e53);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin: 3rem 0;
+        }
+        
+        .contact-info h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .contact-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .contact-item {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo"> Candy Store</div>
+            <p>Сладости, которые делают мир ярче!</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                <li><a href="{% url 'sweets_list' %}">Каталог сладостей</a></li>
+                <li><a href="{% url 'about' %}">О нас</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Наша история</h2>
+                <p>Добро пожаловать в Candy Store — мир, где каждая сладость создана с любовью и вниманием к деталям!</p>
+                <p>Наша история началась в 2010 году, когда основатель магазина, кондитер-энтузиаст Анна, решила поделиться своей страстью к созданию уникальных сладостей с жителями города.</p>
+                <p>Начиная с маленькой домашней кондитерской, мы выросли в один из самых популярных магазинов сладостей в регионе, сохранив при этом теплую, семейную атмосферу и индивидуальный подход к каждому клиенту.</p>
+            </div>
+            
+            <div class="about-text">
+                <h2>Наша философия</h2>
+                <p>Мы верим, что качественные сладости могут не только порадовать вкусовые рецепторы, но и поднять настроение, стать частью особых моментов жизни и создать теплые воспоминания.</p>
+                <p>Вся наша продукция изготавливается только из натуральных ингредиентов высшего качества. Мы тщательно отбираем поставщиков и контролируем каждый этап производства.</p>
+                <p>Для нас важно, чтобы каждая конфета, каждый шоколад и каждый десерт, покидающий наш магазин, был совершенен.</p>
+            </div>
+        </div>
+        
+        <div class="values">
+            <div class="value-card">
+                <div class="value-icon"></div>
+                <h3>Натуральность</h3>
+                <p>Только натуральные ингредиенты без искусственных добавок и консервантов</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon"></div>
+                <h3>С любовью</h3>
+                <p>Каждое изделие создается с заботой и вниманием к деталям</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon"></div>
+                <h3>Качество</h3>
+                <p>Строгий контроль качества на всех этапах производства</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon"></div>
+                <h3>Доставка</h3>
+                <p>Быстрая и бережная доставка по всему городу</p>
+            </div>
+        </div>
+        
+        <div class="team">
+            <h2>Наша команда</h2>
+            <div class="team-members">
+                <div class="team-member">
+                    <div class="member-photo">А</div>
+                    <h3>Анна Иванова</h3>
+                    <p>Основатель, главный кондитер</p>
+                    <p>Опыт работы: 15 лет</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">М</div>
+                    <h3>Мария Петрова</h3>
+                    <p>Шоколатье</p>
+                    <p>Опыт работы: 8 лет</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">Д</div>
+                    <h3>Дмитрий Смирнов</h3>
+                    <p>Менеджер по закупкам</p>
+                    <p>Опыт работы: 10 лет</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">Е</div>
+                    <h3>Елена Козлова</h3>
+                    <p>Консультант по сладостям</p>
+                    <p>Опыт работы: 6 лет</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-info">
+            <h2>Контакты</h2>
+            <div class="contact-details">
+                <div class="contact-item">
+                    <div class="contact-icon"></div>
+                    <h3>Адрес</h3>
+                    <p>ул. Сладкая, д. 123<br>г. Конфетоград</p>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon"></div>
+                    <h3>Телефон</h3>
+                    <p>+7 (123) 456-78-90<br>Пн-Вс: 9:00-21:00</p>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon"></div>
+                    <h3>Email</h3>
+                    <p>info@candystore.ru<br>orders@candystore.ru</p>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon"></div>
+                    <h3>Режим работы</h3>
+                    <p>Понедельник-Пятница: 9:00-21:00<br>Суббота-Воскресенье: 10:00-20:00</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-text">
+            <h2>Наши достижения</h2>
+            <p> Победитель конкурса "Лучшая кондитерская 2023"</p>
+            <p> Обладатель премии "Золотой шоколад" 2022</p>
+            <p> Лучший семейный бизнес города 2021</p>
+            <p> Сертификат качества "Европейские стандарты"</p>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <p>© 2025 Candy Store. Все права защищены.</p>
+            <p>Сделано с любовью и сладостями! 🍭</p>
+        </div>
+    </footer>
+</body>
+</html>
+

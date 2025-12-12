@@ -1,0 +1,378 @@
+{% extends 'base.html' %}
+
+{% block title %}Все сладости - Candy Store{% endblock %}
+
+{% block content %}
+<style>
+    .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .page-header h1 {
+        color: #ff6b8b;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .filters {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        margin-bottom: 3rem;
+    }
+    
+    .filter-form {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .filter-label {
+        color: #666;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+    
+    .filter-select {
+        padding: 0.8rem;
+        border: 2px solid #eee;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+    
+    .filter-select:focus {
+        outline: none;
+        border-color: #ff8e53;
+    }
+    
+    .filter-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-end;
+    }
+    
+    .filter-btn {
+        background: linear-gradient(135deg, #ff6b8b, #ff8e53);
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: opacity 0.3s;
+    }
+    
+    .filter-btn:hover {
+        opacity: 0.9;
+    }
+    
+    .reset-btn {
+        background: #666;
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .reset-btn:hover {
+        background: #555;
+    }
+    
+    .sweets-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    
+    .sort-options {
+        display: flex;
+        gap: 1rem;
+    }
+    
+    .sort-btn {
+        background: #f0f0f0;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .sort-btn.active {
+        background: #ff8e53;
+        color: white;
+    }
+    
+    .sweet-item {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+    
+    .sweet-item:hover {
+        transform: translateX(10px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+    
+    .sweet-image {
+        width: 100px;
+        height: 100px;
+        background: linear-gradient(135deg, #ff6b8b, #ff8e53);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 2.5rem;
+        margin-right: 1.5rem;
+        flex-shrink: 0;
+    }
+    
+    .sweet-details {
+        flex-grow: 1;
+    }
+    
+    .sweet-name {
+        font-size: 1.3rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+    
+    .sweet-meta {
+        display: flex;
+        gap: 1rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .sweet-composition {
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .sweet-price {
+        color: #ff6b8b;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    
+    .sweet-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-left: 1.5rem;
+    }
+    
+    .detail-btn {
+        background: #ff8e53;
+        color: white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s;
+        text-decoration: none;
+        text-align: center;
+    }
+    
+    .detail-btn:hover {
+        background: #ff6b8b;
+    }
+    
+    .no-results {
+        text-align: center;
+        padding: 3rem;
+        color: #666;
+    }
+    
+    .no-results-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 3rem;
+    }
+    
+    .page-btn {
+        background: #f0f0f0;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .page-btn.active {
+        background: #ff8e53;
+        color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .sweet-item {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .sweet-image {
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+        
+        .sweet-actions {
+            margin-left: 0;
+            margin-top: 1rem;
+            flex-direction: row;
+        }
+        
+        .filter-form {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="page-header">
+    <h1>Все сладости</h1>
+    <p>Найдите свою идеальную сладость среди {{ sweets|length }} позиций</p>
+</div>
+
+<div class="filters">
+    <form method="get" class="filter-form">
+        <div class="filter-group">
+            <label class="filter-label">Бренд:</label>
+            <select name="brand" class="filter-select">
+                <option value="">Все бренды</option>
+                {% for brand in brands %}
+                <option value="{{ brand.brand_id }}" {% if selected_brand == brand.brand_id|stringformat:"s" %}selected{% endif %}>
+                    {{ brand.brand_name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">Вид сладости:</label>
+            <select name="type" class="filter-select">
+                <option value="">Все виды</option>
+                {% for type in types %}
+                <option value="{{ type.type_id }}" {% if selected_type == type.type_id|stringformat:"s" %}selected{% endif %}>
+                    {{ type.type_name }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="filter-actions">
+            <button type="submit" class="filter-btn">Применить фильтры</button>
+            <a href="{% url 'sweets_list' %}" class="reset-btn">Сбросить</a>
+        </div>
+    </form>
+</div>
+
+<div class="sweets-header">
+    <h2 style="color: #ff6b8b;">Найдено сладостей: {{ sweets|length }}</h2>
+    
+    {% if selected_brand or selected_type %}
+    <div style="color: #666;">
+        Активные фильтры:
+        {% if selected_brand %}
+        <span style="background: #ff8e53; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; margin-left: 0.5rem;">
+            {% for brand in brands %}
+                {% if brand.brand_id == selected_brand|add:"0" %}
+                    {{ brand.brand_name }}
+                {% endif %}
+            {% endfor %}
+        </span>
+        {% endif %}
+        {% if selected_type %}
+        <span style="background: #ff6b8b; color: white; padding: 0.2rem 0.5rem; border-radius: 3px; margin-left: 0.5rem;">
+            {% for type in types %}
+                {% if type.type_id == selected_type|add:"0" %}
+                    {{ type.type_name }}
+                {% endif %}
+            {% endfor %}
+        </span>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+{% if sweets %}
+<div class="sweets-list">
+    {% for sweet in sweets %}
+    <div class="sweet-item">
+        <div class="sweet-image">
+            {% if sweet.type.type_name == "Шоколад" %}🍫
+            {% elif sweet.type.type_name == "Конфеты" %}🍬
+            {% elif sweet.type.type_name == "Печенье" %}🍪
+            {% elif sweet.type.type_name == "Мармелад" %}🟠
+            {% elif sweet.type.type_name == "Вафли" %}🧇
+            {% else %}🍭
+            {% endif %}
+        </div>
+        
+        <div class="sweet-details">
+            <div class="sweet-name">{{ sweet.brand.brand_name }}</div>
+            <div class="sweet-meta">
+                <span><strong>Бренд:</strong> {{ sweet.brand.brand_name }}</span>
+                <span><strong>Вид:</strong> {{ sweet.type.type_name }}</span>
+                <span><strong>Вес:</strong> {{ sweet.weight }}</span>
+                <span><strong>Производитель:</strong> {{ sweet.manufacturer.name }}</span>
+            </div>
+            {% if sweet.composition %}
+            <div class="sweet-composition">
+                <strong>Состав:</strong> {{ sweet.composition|truncatechars:150 }}
+            </div>
+            {% endif %}
+            <div class="sweet-price">{{ sweet.price }} ₽</div>
+        </div>
+        
+        <div class="sweet-actions">
+            <a href="{% url 'sweet_detail' sweet.sweet_id %}" class="detail-btn">Подробнее</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="no-results">
+    <div class="no-results-icon">🍭</div>
+    <h3>Сладостей не найдено</h3>
+    <p>Попробуйте изменить параметры фильтрации</p>
+    <a href="{% url 'sweets_list' %}" style="display: inline-block; margin-top: 1rem; color: #ff8e53; text-decoration: none;">
+        ← Показать все сладости
+    </a>
+</div>
+{% endif %}
+
+<div style="text-align: center; margin-top: 3rem;">
+    <a href="{% url 'home' %}" style="color: #ff8e53; text-decoration: none; font-weight: bold;">
+        ← Вернуться на главную
+    </a>
+</div>
+{% endblock %}

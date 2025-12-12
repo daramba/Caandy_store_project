@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Кондитерская лавка{% endblock %}</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>{% block title %}Candy Store - Магазин сладостей{% endblock %}</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            background-color: #fff9f9;
             color: #333;
-            background-color: #f9f5f0;
+            line-height: 1.6;
         }
         
         .container {
@@ -25,204 +24,128 @@
             padding: 0 20px;
         }
         
-     /* Header стили */
         header {
-            background: linear-gradient(135deg, #ff6b9d, #ff8e53);
+            background: linear-gradient(135deg, #ff6b8b, #ff8e53);
             color: white;
-            padding: 1rem 0;
+            padding: 2rem 0;
+            text-align: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
         .logo {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: bold;
-            display: flex;
-            align-items: center;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         
-        .logo i {
-            margin-right: 10px;
-            color: #ffecb3;
+        .logo a {
+            color: white;
+            text-decoration: none;
         }
         
-        nav ul {
+        nav {
+            background-color: #ff8e53;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-links {
             display: flex;
+            justify-content: center;
             list-style: none;
+            gap: 2rem;
         }
         
-        nav ul li {
-            margin-left: 2rem;
-        }
-        
-        nav ul li a {
+        .nav-links a {
             color: white;
             text-decoration: none;
             font-weight: 500;
             font-size: 1.1rem;
-            padding: 0.5rem 0;
-            position: relative;
-            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s;
         }
         
-        nav ul li a:hover {
-            color: #ffecb3;
+        .nav-links a:hover {
+            background-color: rgba(255,255,255,0.2);
         }
         
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: #ffecb3;
-            transition: width 0.3s;
+        .nav-links a.active {
+            background-color: rgba(255,255,255,0.3);
+            font-weight: bold;
         }
         
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-        
-        /* Main content */
-        main {
+        .content {
+            min-height: 60vh;
             padding: 2rem 0;
-            min-height: 70vh;
         }
         
-        /* Footer стили */
         footer {
-            background: #2c3e50;
-            color: #ecf0f1;
+            background-color: #333;
+            color: white;
+            text-align: center;
             padding: 2rem 0;
             margin-top: 3rem;
         }
         
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
+        .candy-count {
+            background: linear-gradient(135deg, #ff6b8b, #ff8e53);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-left: 1rem;
         }
         
-        .footer-section {
-            flex: 1;
-            min-width: 250px;
-            margin-bottom: 1.5rem;
-        }
-        
-        .footer-section h3 {
-            color: #ff8e53;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-        
-        .footer-section p {
-            margin-bottom: 0.8rem;
-        }
-        
-        .social-links a {
-            color: #ecf0f1;
-            font-size: 1.5rem;
-            margin-right: 1rem;
-            transition: color 0.3s;
-        }
-        
-        .social-links a:hover {
-            color: #ff8e53;
-        }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid #34495e;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            color: #bdc3c7;
-        }
-        
-        /* Адаптивность */
         @media (max-width: 768px) {
-            .header-container {
+            .nav-links {
                 flex-direction: column;
-                text-align: center;
+                align-items: center;
+                gap: 1rem;
             }
             
-            nav ul {
-                margin-top: 1rem;
-                justify-content: center;
-            }
-            
-            nav ul li {
-                margin: 0 0.5rem;
-            }
-            
-            .footer-content {
-                flex-direction: column;
+            .logo {
+                font-size: 2rem;
             }
         }
     </style>
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Header -->
     <header>
-        <div class="container header-container">
-            <div class="logo">
-                <i class="fas fa-candy-cane"></i>
-                Кондитерская лавка
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Главная</a></li>
-                    <li><a href="{% url 'sweets_list' %}"><i class="fas fa-cookie-bite"></i> Сладости</a></li>
-                    <li><a href="{% url 'about' %}"><i class="fas fa-info-circle"></i> О нас</a></li>
-                </ul>
-            </nav>
+        <div class="container">
+            <h1 class="logo"><a href="{% url 'home' %}"> Candy Store</a></h1>
+            <p>Самые вкусные сладости со всего мира!</p>
         </div>
     </header>
-
-    <!-- Main Content -->
-    <main>
+    
+    <nav>
         <div class="container">
-            {% block content %}
-            {% endblock %}
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}" {% if request.path == '/' %}class="active"{% endif %}>Главная</a></li>
+                <li><a href="{% url 'sweets_list' %}" {% if '/sweets/' in request.path %}class="active"{% endif %}>
+                    Все сладости
+                    <span class="candy-count">{{ sweets_count|default:0 }}</span>
+                </a></li>
+                <li><a href="{% url 'about' %}" {% if '/about/' in request.path %}class="active"{% endif %}>О нас</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main class="container">
+        <div class="content">
+            {% block content %}{% endblock %}
         </div>
     </main>
-
-    <!-- Footer -->
+    
     <footer>
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Кондитерская лавка</h3>
-                    <p>Самые вкусные сладости для вас и вашей семьи. Только натуральные ингредиенты!</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Контакты</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Сладкая, д. 15</p>
-                    <p><i class="fas fa-phone"></i> +7 (495) 123-45-67</p>
-                    <p><i class="fas fa-envelope"></i> info@sweet-shop.ru</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Мы в соцсетях</h3>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-vk"></i></a>
-                        <a href="#"><i class="fab fa-telegram"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                &copy; 2024 Кондитерская лавка. Все права защищены.
-            </div>
+            <p>© 2025 Candy Store. Все права защищены.</p>
+            <p>Сделано со сладостями для сладкоежек! </p>
         </div>
     </footer>
-
+    
     {% block extra_js %}{% endblock %}
 </body>
 </html>

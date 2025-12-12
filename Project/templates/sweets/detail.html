@@ -1,0 +1,350 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ sweet.brand.brand_name }} - Candy Store{% endblock %}
+
+{% block content %}
+<style>
+    .sweet-detail {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        margin-bottom: 3rem;
+    }
+    
+    .sweet-image-large {
+        background: linear-gradient(135deg, #ff6b8b, #ff8e53);
+        border-radius: 15px;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 8rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+    
+    .sweet-info {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .sweet-title {
+        color: #ff6b8b;
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .sweet-meta {
+        display: flex;
+        gap: 1.5rem;
+        color: #666;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid #f0f0f0;
+    }
+    
+    .meta-item {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .meta-label {
+        font-size: 0.9rem;
+        color: #999;
+    }
+    
+    .meta-value {
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .sweet-price-large {
+        font-size: 3rem;
+        color: #ff6b8b;
+        font-weight: bold;
+        margin: 1.5rem 0;
+        text-align: center;
+    }
+    
+    .sweet-description {
+        margin: 2rem 0;
+    }
+    
+    .description-title {
+        color: #333;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+    }
+    
+    .description-content {
+        color: #666;
+        line-height: 1.8;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .buy-btn {
+        background: linear-gradient(135deg, #ff6b8b, #ff8e53);
+        color: white;
+        border: none;
+        padding: 1rem 2.5rem;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        flex-grow: 1;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .buy-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 107, 139, 0.3);
+    }
+    
+    .back-btn {
+        background: #f0f0f0;
+        color: #333;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    
+    .back-btn:hover {
+        background: #e0e0e0;
+    }
+    
+    .nutrition-info {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        margin-top: 2rem;
+    }
+    
+    .nutrition-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+    
+    .nutrition-item {
+        text-align: center;
+        padding: 1rem;
+        background: #fff9f9;
+        border-radius: 10px;
+    }
+    
+    .nutrition-value {
+        font-size: 1.8rem;
+        color: #ff8e53;
+        font-weight: bold;
+    }
+    
+    .nutrition-label {
+        color: #666;
+        margin-top: 0.5rem;
+    }
+    
+    .related-sweets {
+        margin-top: 4rem;
+    }
+    
+    .related-title {
+        color: #ff6b8b;
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    
+    .related-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .related-card {
+        background: white;
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+    }
+    
+    .related-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    
+    .related-image {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .related-name {
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+    
+    .related-price {
+        color: #ff6b8b;
+        font-weight: bold;
+        margin: 0.5rem 0;
+    }
+    
+    .view-related-btn {
+        background: #ff8e53;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+        text-decoration: none;
+        display: inline-block;
+    }
+    
+    @media (max-width: 768px) {
+        .sweet-detail {
+            grid-template-columns: 1fr;
+        }
+        
+        .sweet-image-large {
+            height: 300px;
+        }
+        
+        .sweet-meta {
+            flex-wrap: wrap;
+        }
+        
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="sweet-detail">
+    <div class="sweet-image-large">
+        {% if sweet.type.type_name == "Шоколад" %}🍫
+        {% elif sweet.type.type_name == "Конфеты" %}🍬
+        {% elif sweet.type.type_name == "Печенье" %}🍪
+        {% elif sweet.type.type_name == "Мармелад" %}🟠
+        {% elif sweet.type.type_name == "Вафли" %}🧇
+        {% elif sweet.type.type_name == "Торт" %}🎂
+        {% elif sweet.type.type_name == "Пирожное" %}🧁
+        {% else %}🍭
+        {% endif %}
+    </div>
+    
+    <div class="sweet-info">
+        <h1 class="sweet-title">{{ sweet.brand.brand_name }}</h1>
+        
+        <div class="sweet-meta">
+            <div class="meta-item">
+                <span class="meta-label">Бренд</span>
+                <span class="meta-value">{{ sweet.brand.brand_name }}</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Вид</span>
+                <span class="meta-value">{{ sweet.type.type_name }}</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Производитель</span>
+                <span class="meta-value">{{ sweet.manufacturer.name }}</span>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Вес</span>
+                <span class="meta-value">{{ sweet.weight }}</span>
+            </div>
+        </div>
+        
+        <div class="sweet-price-large">{{ sweet.price }} ₽</div>
+        
+        {% if sweet.composition %}
+        <div class="sweet-description">
+            <h3 class="description-title">Состав:</h3>
+            <div class="description-content">
+                {{ sweet.composition|linebreaks }}
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="action-buttons">
+            <button class="buy-btn">🛒 Добавить в корзину</button>
+            <a href="{% url 'sweets_list' %}">
+                <button class="back-btn">← Назад к каталогу</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="nutrition-info">
+    <h2 style="color: #ff6b8b; text-align: center; margin-bottom: 1.5rem;">Пищевая ценность</h2>
+    <div class="nutrition-grid">
+        <div class="nutrition-item">
+            <div class="nutrition-value">350</div>
+            <div class="nutrition-label">Калорий</div>
+        </div>
+        <div class="nutrition-item">
+            <div class="nutrition-value">45г</div>
+            <div class="nutrition-label">Углеводы</div>
+        </div>
+        <div class="nutrition-item">
+            <div class="nutrition-value">12г</div>
+            <div class="nutrition-label">Жиры</div>
+        </div>
+        <div class="nutrition-item">
+            <div class="nutrition-value">5г</div>
+            <div class="nutrition-label">Белки</div>
+        </div>
+        <div class="nutrition-item">
+            <div class="nutrition-value">25г</div>
+            <div class="nutrition-label">Сахар</div>
+        </div>
+    </div>
+</div>
+
+<div class="related-sweets">
+    <h2 class="related-title">Похожие сладости</h2>
+    <div class="related-grid">
+        {% for related_sweet in sweets|slice:":4" %}
+            {% if related_sweet.sweet_id != sweet.sweet_id %}
+            <div class="related-card">
+                <div class="related-image">
+                    {% if related_sweet.type.type_name == "Шоколад" %}🍫
+                    {% elif related_sweet.type.type_name == "Конфеты" %}🍬
+                    {% else %}🍭
+                    {% endif %}
+                </div>
+                <div class="related-name">{{ related_sweet.brand.brand_name }}</div>
+                <div style="color: #666; font-size: 0.9rem;">{{ related_sweet.type.type_name }}</div>
+                <div class="related-price">{{ related_sweet.price }} ₽</div>
+                <a href="{% url 'sweet_detail' related_sweet.sweet_id %}" class="view-related-btn">Посмотреть</a>
+            </div>
+            {% endif %}
+        {% empty %}
+        <div style="grid-column: 1 / -1; text-align: center; color: #666;">
+            Нет похожих сладостей
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 3rem;">
+    <a href="{% url 'sweets_list' %}" style="color: #ff8e53; text-decoration: none; font-size: 1.1rem;">
+        ← Вернуться ко всем сладостям
+    </a>
+</div>
+{% endblock %}
